@@ -2,9 +2,14 @@
 
 #include "esp_err.h"
 
+typedef enum {
+    WIFI_ONBOARD_MODE_CAPTIVE = 0,
+    WIFI_ONBOARD_MODE_ADMIN,
+} wifi_onboard_mode_t;
+
 /**
- * Start WiFi onboarding captive portal.
- * Opens a soft AP, DNS hijacker, and HTTP configuration server.
- * Blocks until the user submits credentials, then saves to NVS and restarts.
+ * Start WiFi onboarding/configuration portal.
+ * CAPTIVE mode opens DNS hijack + config page and blocks forever.
+ * ADMIN mode keeps a local config hotspot alive without captive redirects.
  */
-esp_err_t wifi_onboard_start(void);
+esp_err_t wifi_onboard_start(wifi_onboard_mode_t mode);

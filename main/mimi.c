@@ -159,8 +159,12 @@ void app_main(void)
 
     if (!wifi_ok) {
         ESP_LOGW(TAG, "Entering WiFi onboarding mode...");
-        wifi_onboard_start();  /* blocks, restarts on success */
+        wifi_onboard_start(WIFI_ONBOARD_MODE_CAPTIVE);  /* blocks, restarts on success */
         return;  /* unreachable */
+    }
+
+    if (wifi_onboard_start(WIFI_ONBOARD_MODE_ADMIN) != ESP_OK) {
+        ESP_LOGW(TAG, "Local admin portal unavailable; continuing without config hotspot");
     }
 
     {
